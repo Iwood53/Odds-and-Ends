@@ -1,3 +1,14 @@
+import sys
+
+
+def is_number(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
 def convert(base_10_int, conv_to_base):
     place_holder = [1]
     running_max = conv_to_base - 1
@@ -27,6 +38,12 @@ def convert(base_10_int, conv_to_base):
 
     final_num_string = "".join(str(x) for x in final_num)
     return final_num_string
+
+
+if len(sys.argv) == 3 and is_number(sys.argv[1]) and is_number(sys.argv[2]):
+    print(convert(int(sys.argv[1]), int(sys.argv[2])))
+else:
+    print("Usage: BaseX.py <convert from base 10 num> <to base x>")
 
 
 
