@@ -16,5 +16,7 @@ F1_results_scraper.py
 - script that gets all the race results for the 2014 Formula 1 Season
 - outputs data into a csv file named "results.csv" 
 - data in is the following format... event_location, first_name, last_name, place, laps, time, grid, points
-- event location can be changed by changing the second list item next to the urls, event location is just what i needed specifically
+- event location can be changed by changing the second list item next to the urls
 - events with results that have not been posted yet will be ignored
+- creates a python module file named 'output_script.py' containing one method... insert_data()
+- in the django shell, import moduleand run insert_data() to insert all results data to Results model
