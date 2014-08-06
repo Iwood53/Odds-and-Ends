@@ -46,3 +46,37 @@ for url in urls:
 with open("results.csv", "wb") as f:
     writer = csv.writer(f)
     writer.writerows(urlobjlist)
+	driver_input_string = "    Driver(first_name='%s',last_name='%s',team='%s',number=%s,current_driver=%s).save()\n"
+	event_input_string = "    Event(name='%s',location='%s',start_time='%s').save()\n"
+	results_input_string = "    Results(event=%s,driver=%s,place='%s',laps='%s',time_or_retired='%s',grid=%s, points=%s).save()\n"
+	get_event_string = "    e = Event.objects.get(location='%s')\n"
+	get_driver_string = "    d = Driver.objects.get(last_name='%s')\n"
+
+	f = open('output_scirpt.py', 'w')
+
+	f.write("from game.models import Driver, Events, Results\n\n\n")
+	f.write("def insert_data():\n")
+
+	item_selector = 1
+	for line in open('results.csv'):
+	    if line == '<split>\n':
+	        item_selector += 1
+	    elif item_selector == 1:
+	        first_name, last_name, team, number, current_driver = line.split(',')
+	        python_string = driver_input_string % (first_name.strip(), last_name.strip(), team.strip(), number.strip(), current_driver.strip())
+	        f.write(python_string)
+	    elif item_selector == 2:
+	        name, location, start_time = line.split(',')
+	        python_string = event_input_string % (name.strip(), location.strip(), start_time.strip())
+	        f.write(python_string)
+	    elif item_selector == 3:
+	        event_location, driver_first_name, driver_last_name, place, laps, time, grid, points = line.split(',')
+	        if points.strip() == '':
+	            points = '0'
+	        python_string = get_event_string % location
+	        f.write(python_string)
+	        python_string = get_driver_string % driver_last_name
+	        f.write(python_string)
+	        python_string = results_input_string % ('e', 'd', place.strip(), laps.strip(), time.strip(), grid.strip(), points.strip())
+	        f.write(python_string)
+	f.close()
